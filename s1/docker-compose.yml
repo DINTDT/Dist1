@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  s1:
+    build: .
+    ports:
+    - "5000:5000"
+    network_mode: "host"
+    stdin_open: true
+    tty: true
