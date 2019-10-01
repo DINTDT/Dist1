@@ -2,6 +2,7 @@ version: "3.7"
 services:
   c1:
     build: .
+    image: ubuntu
     network_mode: "host"
     stdin_open: true
     tty: true

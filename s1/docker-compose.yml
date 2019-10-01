@@ -2,6 +2,7 @@ version: "3.7"
 services:
   s1:
     build: .
+    image: ubuntu
     ports:
     - "5000:5000"
     network_mode: "host"
