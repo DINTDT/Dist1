@@ -9,4 +9,5 @@ Para ejectuar cualquiera de estas aplicaciones, basta ejectuar el comando "docke
  - Si el cliente se inicia y no encuentra el servidor, lanzará un error y se cerrará.
  - Cuando el cliente encuentra el servidor, le envía el mensaje "hello" y espera una respuesta. Al recibir la respuesta, la guarda en un archivo "respuestas.txt" y cierra.
  - Cuando el servidor recibe un mensaje de un cliente conectado, guarda el mensaje recibido en el archivo "log.txt" y le envía la respuesta "received message".
- - Ambos archivos ("log.txt" y "respuestas.txt") se encuentran en el directorio "/app" del contenedor de la apliación correspondiente.
+ - Ambos archivos ("log.txt" y "respuestas.txt") se encuentran en el directorio "/app" del contenedor de la aplicación respectivaa, que corresponden a las carpetas "work" dentro de "c1" y "s1".
+ - Existe un archivo "deploy.sh" en "c1" y en "s2". El archivo ejecuta en secuencia docker-compose con los comandos "down", "build" y "up". No es necesario ejecutarlo para el correcto funcionamiento de la aplicación

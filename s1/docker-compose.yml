@@ -6,5 +6,6 @@ services:
     ports:
     - "5000:5000"
     network_mode: "host"
-    stdin_open: true
     tty: true
+    volumes:
+    - "./work/:/app/"
