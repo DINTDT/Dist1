@@ -1,9 +1,8 @@
 version: "3.7"
 services:
-  s1:
+  c2:
     build: .
-    ports:
-    - "5000:5000"
+    image: ubuntu
     network_mode: "host"
     tty: true
     volumes:
