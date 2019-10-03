@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  s1:
+    container_name: s1
+    build: .
+    ports:
+    - "5000:5000"
+    expose:
+    - "5000"
+    tty: true
+    build: ./s1
+    volumes:
+    - "./s1/work/:/app/"
+  c1:
+    container_name: c1
+    build: .
+    tty: true
+    build: ./c1
+    volumes:
+    - "./c1/work/:/app/"
+    depends_on:
+      - s1

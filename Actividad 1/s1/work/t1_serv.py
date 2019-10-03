@@ -1,6 +1,7 @@
 import socket
 
-own_ip = socket.gethostbyname(socket.getfqdn())
+#own_ip = socket.gethostbyname(socket.getfqdn())
+own_ip = "0.0.0.0"
 own_port = 5000
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
