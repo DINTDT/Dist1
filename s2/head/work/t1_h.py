@@ -1,7 +1,7 @@
 import socket
 import time
 import threading
-from random import randint
+import random
 import sys
 
 own_ip = socket.gethostbyname(socket.getfqdn())
@@ -50,8 +50,8 @@ def checknodes():
 		heartbeat.write("\n")
 		time.sleep(5)
 
-s.listen(1)
-d.listen(3)
+s.listen(1) #for the client
+d.listen(3) # for each datanode
 #Esperar conexiones de datanodes
 for i in [0,1,2]:
 	dataconnect(False)
@@ -61,7 +61,7 @@ print "starting heart"
 sys.stdout.flush()
 badum.start()
 
-connect = thread.Thread(target=dataconnect, args=(True,))
+connect = threading.Thread(target=dataconnect, args=(True,))
 connect.start()
 
 while True:
