@@ -20,4 +20,4 @@ while True:
 	log.write(data+"\n")
 	log.flush()
 	conn.sendall("received message")
-
+	break #this break is only because we expect only one message
