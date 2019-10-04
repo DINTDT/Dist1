@@ -1,7 +1,7 @@
-ip 127.0.1.1
+ip head
 port 6000
 Este mensaje se envia al servidor
 Pueden enviarse varias lineas
 Como esta
 O esta de aqui
-
+chao

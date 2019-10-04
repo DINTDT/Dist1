@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  head:
+    container_name: head
+    ports:
+    - "5000:5000"
+    expose:
+    - "5000"
+    build: ./s2/head/
+    tty: true
+    stdin_open: true
+    volumes:
+    - "./s2/head/work/:/app/"
+  data1:
+    container_name: data1
+    tty: true
+    build: ./s2/data/
+    volumes:
+    - "./s2/data/work1/:/app/"
+    depends_on: 
+    - head
+  data2:
+    container_name: data2
+    tty: true
+    build: ./s2/data/
+    volumes:
+    - "./s2/data/work1/:/app/"
+    depends_on: 
+    - data1
+  data3:
+    container_name: data3
+    tty: true
+    build: ./s2/data/
+    volumes:
+    - "./s2/data/work1/:/app/"
+    depends_on: 
+    - data2
