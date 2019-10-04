@@ -62,16 +62,27 @@ def checknodes():
 	i = -1
 	while True:
 		i += 1
-		for node in datanodes:
-			node.check(("respond " + str(i)))
-			response=node.heart.recv(128)
-			print "[Head] got",repr(response)
-			if response=="":
-				datanodes.remove(node)
-			else:
-				heartbeat.write("["+ str(node.id)+"]")
-		heartbeat.write("\n")
+		try:
+			for node in datanodes:
+				node.check(("respond " + str(i)))
+				response=node.heart.recv(128)
+				print "[Head] got",repr(response)
+				if response=="":
+					datanodes.remove(node)
+				else:
+					heartbeat.write("["+ str(node.id)+"]")
+			heartbeat.write("\n")
+			if "DYING" in response:
+				break
+		except:
+			print "[Head] No datanodes, exiting"
+			break
 		time.sleep(5)
+
+def shutdown_badly():
+	for node in datanodes:
+		node.check("kill")
+		node.send("kill")
 
 s.listen(1) #for the client
 d.listen(6) # for each datanode
@@ -102,10 +113,11 @@ while True:
 	chosen.send(data)
 	#ack from the datanode
 	ack=chosen.conn.recv(16)
-	id_node = chosen.id
-	log.write(data+"[@"+str(id_node)+"]\n")
+	id_node = str(chosen.id)
+	log.write(data+"[@"+id_node+"]\n")
 	conn.sendall(id_node)
-	if("chao" == data):
+	if("chao\r\n" == data):
+		shutdown_badly()
 		break
 
 print "server closing"

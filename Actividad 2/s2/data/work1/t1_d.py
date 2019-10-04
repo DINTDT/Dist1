@@ -23,12 +23,17 @@ def th_ctrl(serv_ip, serv_port):
 		ctrl = s_CONTROL.recv(1024)
 		s_CONTROL.sendall("dokidoki") #message for the hertbeat
 		print "[Heart] got",repr(ctrl)
+		if ctrl == "kill":
+			break
+	s_CONTROL.sendall("DYING")
+	print "CONTROL THREAD HAS BEEN KILLED"
 
 #log = open("data.txt","a+")
 serv_ip = "head"
 serv_port = "5999"
 print "connecting to ip:",serv_ip
 print "with port:",serv_port
+not_killed = True
 
 #CREATION OF BOTH CHANNELS, DATA AND CONTROL
 s_DATA = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -38,6 +43,7 @@ th_CONTROL = threading.Thread(target=th_ctrl, args=(serv_ip, serv_port))
 th_CONTROL.start()
 
 prev = str(s_DATA.recv(1024))
+self_id = str(prev)
 log = open("data"+prev+".txt","a+")
 
 while True:
@@ -45,6 +51,10 @@ while True:
 	#if the string in the buffer has changed
 	if prev != data:
 		log.write(repr(data))
+		log.write("\n")
 		print "[Data] got",repr(data)
 		s_DATA.sendall("ack")
+	if data == "kill":
+		break
 	prev = str(data)
+print "Datanode " + prev + "is being closed"

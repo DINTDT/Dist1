@@ -35,3 +35,11 @@ services:
     - "./s2/data/work1/:/app/"
     depends_on: 
     - data2
+  c2:
+    container_name: c2
+    tty: true
+    build: ./c2
+    volumes:
+    - "./c2/work/:/app/"
+    depends_on: 
+    - data3
