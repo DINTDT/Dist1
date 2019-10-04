@@ -1,3 +1,0 @@
-'O esta de aqui\r\n'
-'chao\r\n'
-'kill'

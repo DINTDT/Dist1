@@ -9,9 +9,12 @@ print "with port:",serv_port
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((serv_ip, int(serv_port)))
+
+#A simple for to send every line in the target file
 for line in file.readlines():
-	s.sendall(line)
+	s.sendall(line.strip())
 	data = s.recv(1024)
-	print "got",repr(data)
+	#print "got",repr(data)
 	log.write(repr(data)+"\n")
 
+#this client just send the lines and end with a keyword to stop the server.

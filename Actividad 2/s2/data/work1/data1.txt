@@ -1,3 +1,0 @@
-'Pueden enviarse varias lineas\r\n'
-'Como esta\r\n'
-'kill'

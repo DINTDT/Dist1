@@ -22,6 +22,7 @@ log = open("registro_server.txt","a+")
 
 datanodes=list()
 
+#the class fo the datanodes
 class datanode:
 	id=0
 	#conn=None
@@ -34,10 +35,6 @@ class datanode:
 		self.heart, self.addr_heart = c, d
 	def send(self, data, d = "trash"):
 		self.conn.sendall(data)
-	def connect(self, a, b):
-		self.conn, self.addr = a, b
-	def pacemaker(self, a, b):
-		self.heart, self.addr_heart = a, b
 	def check(self, beat, b = "trash"):
 		self.heart.sendall(beat)
 
@@ -52,12 +49,13 @@ def dataconnect(cont):
 	datanodes.append(node)
 	node.send(str(node.id))
 	while cont:
-		node = datanode()
-		node.connect(tuple(d.accept()))
-		node.pacemaker(tuple(d.accept()))
+		node = datanode((d.accept(), d.accept()))
 		node.id=len(datanodes)+1
 		datanodes.append(node)
+		node.send(str(node.id))
 
+#this is the function that the thread will use to
+#know the state of the datanodes
 def checknodes():
 	i = -1
 	while True:
@@ -72,6 +70,7 @@ def checknodes():
 				else:
 					heartbeat.write("["+ str(node.id)+"]")
 			heartbeat.write("\n")
+			#to kill the thread
 			if "DYING" in response:
 				break
 		except:
@@ -79,6 +78,8 @@ def checknodes():
 			break
 		time.sleep(5)
 
+#this function does not close any socket, that's
+#why is called badly
 def shutdown_badly():
 	for node in datanodes:
 		node.check("kill")
@@ -87,11 +88,12 @@ def shutdown_badly():
 s.listen(1) #for the client
 d.listen(6) # for each datanode
 
-#Esperar conexiones de datanodes
+#waiting 4 datanodes connections
 cantidad = list(range(3))
 for i in cantidad:
 	dataconnect(False)
 
+#the thread that checks the state of the datanodes
 badum = threading.Thread(target=checknodes)
 print "starting heart"
 sys.stdout.flush()
@@ -105,10 +107,11 @@ badum.start()
 conn, addr = s.accept()
 print "connection from",addr
 sys.stdout.flush()
+
 while True:
 	data=str(conn.recv(1024))
-	print "received", data
-	sys.stdout.flush()
+	#print "received", data
+	#sys.stdout.flush()
 	chosen=random.choice(datanodes)
 	chosen.send(data)
 	#ack from the datanode
@@ -116,7 +119,9 @@ while True:
 	id_node = str(chosen.id)
 	log.write(data+"[@"+id_node+"]\n")
 	conn.sendall(id_node)
-	if("chao\r\n" == data):
+
+	#to kill everything just say "chao"
+	if("chao" == data):
 		shutdown_badly()
 		break
 

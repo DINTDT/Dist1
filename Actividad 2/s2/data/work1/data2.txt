@@ -1,2 +1,0 @@
-'Este mensaje se envia al servidor\r\n'
-'kill'
