@@ -17,7 +17,7 @@ while True:
 	print "connection from",addr
 	data=conn.recv(1024)
 	print "received",data
-	log.write(data+"\n")
+	log.write("[" + addr[0]+ "] " + data+"\n")
 	log.flush()
 	conn.sendall("received message")
 	break #this break is only because we expect only one message
